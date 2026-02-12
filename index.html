@@ -15,15 +15,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- GSAP & Plugins -->
+  <!-- GSAP & Plugins (public CDN only) -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrambleTextPlugin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js"></script>
 
   <!-- Lenis Smooth Scroll -->
-  <script src="https://unpkg.com/lenis@1.2.3/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
   <style>
     /* ═══════════════════════════════════════
@@ -1420,36 +1417,32 @@
     /* ═══════════════════════════════════════
        ANIMATION UTILITY CLASSES
     ═══════════════════════════════════════ */
-    [data-gsap-hidden] {
-      visibility: hidden;
+    [data-animate] {
+      opacity: 0;
+      will-change: transform, opacity;
     }
 
-    .reveal-text .line {
+    .hero__headline .line {
       overflow: hidden;
     }
 
-    .reveal-text .line-inner {
-      display: inline-block;
+    .hero__headline .line-inner {
+      display: block;
       transform: translateY(110%);
     }
 
-    .stagger-fade {
-      opacity: 0;
-      transform: translateY(30px);
+    /* Marquee CSS animation (buttery smooth, GPU-accelerated) */
+    @keyframes marquee-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    .scale-reveal {
-      transform: scale(0.95);
-      opacity: 0;
+    .marquee__track {
+      animation: marquee-scroll 25s linear infinite;
     }
 
-    /* Horizontal rule animation */
-    .animated-hr {
-      width: 100%;
-      height: 1px;
-      background: var(--color-border-dark);
-      transform: scaleX(0);
-      transform-origin: left;
+    .marquee__track:hover {
+      animation-play-state: paused;
     }
 
     /* ═══════════════════════════════════════
@@ -1539,9 +1532,9 @@
     <div class="hero__accent-circle hero__accent-circle--3" data-parallax-speed="0.03"></div>
 
     <div class="container hero__content">
-      <span class="hero__label" data-gsap-hidden data-anim="fade-up">01 — Portfolio</span>
+      <span class="hero__label" data-animate>01 — Portfolio</span>
 
-      <h1 class="hero__headline" data-gsap-hidden data-anim="text-reveal">
+      <h1 class="hero__headline" data-animate>
         <span class="line"><span class="line-inner">I Turn</span></span>
         <span class="line"><span class="line-inner">Ambiguous</span></span>
         <span class="line"><span class="line-inner"><span class="word-amber">Growth</span></span></span>
@@ -1550,16 +1543,16 @@
         <span class="line"><span class="line-inner">That <span class="word-amber">Scale</span></span></span>
       </h1>
 
-      <p class="hero__subhead" data-gsap-hidden data-anim="fade-up">
+      <p class="hero__subhead" data-animate>
         Bridging brand, marketing, and operations to drive measurable outcomes &mdash; from $3M to $20M revenue growth, 17-point close rate improvements, and systems that reclaim 1,000+ hours per year.
       </p>
 
-      <div class="hero__ctas" data-gsap-hidden data-anim="fade-up">
+      <div class="hero__ctas" data-animate>
         <a href="#work" class="btn btn--primary" data-magnetic>See the Work <span class="btn__arrow">&rarr;</span></a>
         <a href="#contact" class="btn btn--secondary" data-magnetic>Let's Talk</a>
       </div>
 
-      <div class="hero__metrics" data-gsap-hidden data-anim="stagger-metrics">
+      <div class="hero__metrics" data-animate>
         <div class="metric-card">
           <span class="metric-card__value" data-counter="3">$3M &rarr; $20M</span>
           <span class="metric-card__label">Revenue Growth</span>
@@ -1575,7 +1568,7 @@
       </div>
     </div>
 
-    <div class="hero__scroll-indicator" data-gsap-hidden data-anim="fade-up">
+    <div class="hero__scroll-indicator" data-animate>
       <span class="hero__scroll-text">Scroll</span>
       <div class="hero__scroll-line"></div>
     </div>
@@ -1609,20 +1602,20 @@
     <div class="container">
       <div class="work__header">
         <div class="work__title-group">
-          <span class="section-label" data-gsap-hidden data-anim="fade-up">02 — Selected Work</span>
-          <h2 class="text-h1" data-gsap-hidden data-anim="text-reveal-inline">
+          <span class="section-label" data-animate>02 — Selected Work</span>
+          <h2 class="text-h1" data-animate>
             Projects That<br><span class="text-amber">Drove Results</span>
           </h2>
-          <p class="work__intro" data-gsap-hidden data-anim="fade-up">
+          <p class="work__intro" data-animate>
             Projects spanning revenue operations, systems automation, and full-stack product development.
           </p>
         </div>
-        <a href="#" class="work__link" data-gsap-hidden data-anim="fade-up">View All Projects <span class="btn__arrow">&rarr;</span></a>
+        <a href="#" class="work__link" data-animate>View All Projects <span class="btn__arrow">&rarr;</span></a>
       </div>
 
       <div class="work__grid">
         <!-- Featured Card: Atlanta Roofing -->
-        <div class="work__card work__card--featured" data-gsap-hidden data-anim="scale-reveal">
+        <div class="work__card work__card--featured" data-animate>
           <div class="work__card-bg" style="background: var(--gradient-card-green);"></div>
           <div class="work__card-circle work__card-circle--1"></div>
           <div class="work__card-circle work__card-circle--2"></div>
@@ -1644,7 +1637,7 @@
         </div>
 
         <!-- Side Card: Southern Water -->
-        <div class="work__card work__card--side" data-gsap-hidden data-anim="scale-reveal" data-anim-delay="0.15">
+        <div class="work__card work__card--side" data-animate>
           <div class="work__card-bg" style="background: var(--gradient-card-blue);"></div>
           <div class="work__card-content">
             <div class="work__card-inner">
@@ -1664,7 +1657,7 @@
         </div>
 
         <!-- Side Card: Notova -->
-        <div class="work__card work__card--side" data-gsap-hidden data-anim="scale-reveal" data-anim-delay="0.3">
+        <div class="work__card work__card--side" data-animate>
           <div class="work__card-bg" style="background: var(--gradient-card-red);"></div>
           <div class="work__card-content">
             <div class="work__card-inner">
@@ -1693,15 +1686,15 @@
     <div class="about__left">
       <div class="about__big-number" data-parallax-speed="0.1">AM</div>
       <div class="about__left-content">
-        <div class="about__stat" data-gsap-hidden data-anim="fade-up">
+        <div class="about__stat" data-animate>
           <div class="about__stat-value" data-counter-scroll>$160K+</div>
           <div class="about__stat-label">Monthly Revenue Sold</div>
         </div>
-        <div class="about__stat" data-gsap-hidden data-anim="fade-up">
+        <div class="about__stat" data-animate>
           <div class="about__stat-value">6x</div>
           <div class="about__stat-label">Revenue Scale</div>
         </div>
-        <div class="about__stat" data-gsap-hidden data-anim="fade-up">
+        <div class="about__stat" data-animate>
           <div class="about__stat-value">1,000+</div>
           <div class="about__stat-label">Hours Reclaimed / Year</div>
         </div>
@@ -1711,17 +1704,17 @@
 
     <div class="about__right grain">
       <div>
-        <span class="section-label" data-gsap-hidden data-anim="fade-up">03 — About</span>
-        <h2 class="about__heading" data-gsap-hidden data-anim="text-reveal-inline">
+        <span class="section-label" data-animate>03 — About</span>
+        <h2 class="about__heading" data-animate>
           Designer Turned<br><span class="accent">Systems Builder</span>
         </h2>
-        <p class="about__text" data-gsap-hidden data-anim="fade-up">
+        <p class="about__text" data-animate>
           I started as a designer, spent four years on a sales floor closing deals and building training systems, and evolved into someone who can own the full stack &mdash; from brand strategy to custom automation.
         </p>
-        <p class="about__text" data-gsap-hidden data-anim="fade-up">
+        <p class="about__text" data-animate>
           That sales floor experience changed how I think about creative work. When you've sold $160K+ per month and watched reps succeed or struggle based on whether the system supported them, you stop designing for awards. You design for conversion. You build systems that remove friction and create predictability.
         </p>
-        <p class="about__text" data-gsap-hidden data-anim="fade-up">
+        <p class="about__text" data-animate>
           Now I work with companies that have outgrown their current tools and processes. The brand that got you to $1M won't get you to $10M. The manual workflows that worked with five people break down with fifty. I help systematize what's working so it scales without you.
         </p>
       </div>
@@ -1734,18 +1727,18 @@
   <section class="process section" id="process">
     <div class="container">
       <div class="process__header">
-        <span class="section-label" data-gsap-hidden data-anim="fade-up">04 — How I Work</span>
-        <h2 class="text-h1" data-gsap-hidden data-anim="text-reveal-inline">
+        <span class="section-label" data-animate>04 — How I Work</span>
+        <h2 class="text-h1" data-animate>
           Three Situations<br><span class="text-amber">I Solve</span>
         </h2>
-        <p class="process__intro" data-gsap-hidden data-anim="fade-up">
+        <p class="process__intro" data-animate>
           I work with companies facing one or more of these situations:
         </p>
       </div>
 
       <!-- Problem Cards -->
       <div class="process__problems">
-        <div class="problem-card" data-gsap-hidden data-anim="card-reveal">
+        <div class="problem-card" data-animate>
           <div class="problem-card__number">01</div>
           <h3 class="problem-card__title">Outgrowing Current Systems</h3>
           <p class="problem-card__situation">Your team is spending hours on manual tasks. Lead follow-up is inconsistent. Data lives in spreadsheets instead of dashboards.</p>
@@ -1753,7 +1746,7 @@
           <p class="problem-card__solution">Audit your workflows, identify bottlenecks, and build automation that reclaims time and eliminates friction.</p>
         </div>
 
-        <div class="problem-card" data-gsap-hidden data-anim="card-reveal" data-anim-delay="0.12">
+        <div class="problem-card" data-animate>
           <div class="problem-card__number">02</div>
           <h3 class="problem-card__title">Brand Doesn't Match Who You've Become</h3>
           <p class="problem-card__situation">Your website was built three years ago and feels dated. Prospects question whether you can handle their scale.</p>
@@ -1761,7 +1754,7 @@
           <p class="problem-card__solution">Rebuild from strategy through launch. Brand positioning, identity systems, and conversion-focused execution.</p>
         </div>
 
-        <div class="problem-card" data-gsap-hidden data-anim="card-reveal" data-anim-delay="0.24">
+        <div class="problem-card" data-animate>
           <div class="problem-card__number">03</div>
           <h3 class="problem-card__title">Need to Move Fast Without Hiring Three People</h3>
           <p class="problem-card__situation">You need brand work, a new website, marketing automation, and operational improvements. Hiring specialists for each is slow.</p>
@@ -1772,29 +1765,29 @@
 
       <!-- Process Steps -->
       <div class="process__steps-header">
-        <span class="section-label" data-gsap-hidden data-anim="fade-up">The Process</span>
-        <h3 class="text-h2" style="margin-top: var(--space-3);" data-gsap-hidden data-anim="text-reveal-inline">
+        <span class="section-label" data-animate>The Process</span>
+        <h3 class="text-h2" style="margin-top: var(--space-3);" data-animate>
           Every Engagement<br><span class="text-amber">Follows This Framework</span>
         </h3>
       </div>
 
       <div class="process__steps">
-        <div class="process-step" data-gsap-hidden data-anim="step-reveal">
+        <div class="process-step" data-animate>
           <span class="process-step__number">01</span>
           <h4 class="process-step__title">Discovery</h4>
           <p class="process-step__desc">Understand the real problem, not just the symptoms. Map current workflows, identify friction points, and align on success metrics.</p>
         </div>
-        <div class="process-step" data-gsap-hidden data-anim="step-reveal">
+        <div class="process-step" data-animate>
           <span class="process-step__number">02</span>
           <h4 class="process-step__title">Strategy</h4>
           <p class="process-step__desc">Define the approach. What gets built, in what order, and how we'll measure success. Clear scope, realistic timeline, no surprises.</p>
         </div>
-        <div class="process-step" data-gsap-hidden data-anim="step-reveal">
+        <div class="process-step" data-animate>
           <span class="process-step__number">03</span>
           <h4 class="process-step__title">Build</h4>
           <p class="process-step__desc">Execute with regular check-ins. You see progress as it happens, not all at once at the end.</p>
         </div>
-        <div class="process-step" data-gsap-hidden data-anim="step-reveal">
+        <div class="process-step" data-animate>
           <span class="process-step__number">04</span>
           <h4 class="process-step__title">Optimize</h4>
           <p class="process-step__desc">Measure results, refine based on data, and hand off or continue based on what you need.</p>
@@ -1810,16 +1803,16 @@
     <div class="contact__bg-text" data-parallax-speed="-0.05">LET'S TALK</div>
     <div class="container contact__content">
       <div class="contact__left">
-        <span class="section-label" data-gsap-hidden data-anim="fade-up">05 — Contact</span>
-        <h2 class="contact__heading" data-gsap-hidden data-anim="text-reveal-inline">
+        <span class="section-label" data-animate>05 — Contact</span>
+        <h2 class="contact__heading" data-animate>
           Let's<br><span>Talk</span>
         </h2>
-        <p class="contact__subtext" data-gsap-hidden data-anim="fade-up">
+        <p class="contact__subtext" data-animate>
           Working on something that needs systems thinking? Let's discuss what you're building and how I can help.
         </p>
       </div>
 
-      <form class="contact__form" data-gsap-hidden data-anim="form-reveal">
+      <form class="contact__form" data-animate>
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" autocomplete="name">
@@ -1857,14 +1850,12 @@
   ════════════════════════════════════════════════════════════ -->
   <script>
     // ═══════════════════════════════════════
-    // REGISTER GSAP PLUGINS
+    // REGISTER GSAP PLUGINS (public CDN only)
     // ═══════════════════════════════════════
-    gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, CustomEase);
-    CustomEase.create("smooth", "0.65, 0.01, 0.05, 0.99");
-    CustomEase.create("smooth-in-out", "0.4, 0, 0.2, 1");
+    gsap.registerPlugin(ScrollTrigger);
 
     gsap.defaults({
-      ease: "smooth",
+      ease: "power3.out",
       duration: 0.8
     });
 
@@ -1874,7 +1865,7 @@
     const lenis = new Lenis({
       lerp: 0.1,
       wheelMultiplier: 0.8,
-      easing: (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+      smoothWheel: true
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -1958,24 +1949,45 @@
     })();
 
     // ═══════════════════════════════════════
-    // SCRAMBLE TEXT ON HOVER
+    // VANILLA TEXT SCRAMBLE (no premium plugin)
     // ═══════════════════════════════════════
-    (function initScramble() {
-      const scrambleEls = document.querySelectorAll('[data-scramble]');
-      scrambleEls.forEach(el => {
-        const originalText = el.textContent;
-        el.addEventListener('mouseenter', () => {
-          gsap.to(el, {
-            duration: 0.4,
-            scrambleText: {
-              text: originalText,
-              chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-              speed: 0.3
-            }
-          });
-        });
+    function scrambleText(el, finalText, duration) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const len = finalText.length;
+      const steps = Math.ceil(duration / 16);
+      let step = 0;
+      function update() {
+        step++;
+        const progress = step / steps;
+        let result = '';
+        for (let i = 0; i < len; i++) {
+          if (finalText[i] === ' ') { result += ' '; continue; }
+          result += (i < len * progress) ? finalText[i] : chars[Math.floor(Math.random() * chars.length)];
+        }
+        el.textContent = result;
+        if (step < steps) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    (function initScrambleHover() {
+      document.querySelectorAll('[data-scramble]').forEach(el => {
+        const original = el.textContent.trim();
+        el.addEventListener('mouseenter', () => scrambleText(el, original, 400));
       });
     })();
+
+    // ═══════════════════════════════════════
+    // VANILLA LINE SPLITTER (no premium plugin)
+    // ═══════════════════════════════════════
+    function splitIntoLines(el) {
+      const html = el.innerHTML;
+      const parts = html.split(/<br\s*\/?>/gi);
+      el.innerHTML = parts.map(part =>
+        '<span class="split-line-wrap" style="display:block;overflow:hidden;"><span class="split-line-inner" style="display:block;">' + part.trim() + '</span></span>'
+      ).join('');
+      return el.querySelectorAll('.split-line-inner');
+    }
 
     // ═══════════════════════════════════════
     // HEADER HIDE ON SCROLL
@@ -2009,58 +2021,40 @@
 
       const tl = gsap.timeline({
         onComplete: () => {
-          // Remove loader
           gsap.to(loader, {
             yPercent: -100,
             duration: 0.8,
-            ease: "smooth",
+            ease: "power3.inOut",
             onComplete: () => {
               loader.style.display = 'none';
-              // Start page animations
               initHeroAnimations();
               initScrollAnimations();
-              initMarquee();
               initParallax();
             }
           });
         }
       });
 
-      // Counter animation
+      // Counter + bar fill
       let obj = { val: 0 };
       tl.to(obj, {
         val: 100,
-        duration: 2,
+        duration: 1.8,
         ease: "power2.inOut",
-        onUpdate: () => {
-          counter.textContent = Math.round(obj.val) + '%';
-        }
+        onUpdate: () => { counter.textContent = Math.round(obj.val) + '%'; }
       }, 0);
 
-      // Bar fill
-      tl.to(fill, {
-        width: '100%',
-        duration: 2,
-        ease: "power2.inOut"
-      }, 0);
+      tl.to(fill, { width: '100%', duration: 1.8, ease: "power2.inOut" }, 0);
 
-      // Text scramble
-      tl.to(loaderText, {
-        scrambleText: {
-          text: "Andrew Mindy",
-          chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-          speed: 0.4,
-          revealDelay: 0.3
-        },
-        duration: 1.5
-      }, 0);
+      // Vanilla scramble text for loader
+      scrambleText(loaderText, "Andrew Mindy", 1200);
     }
 
     // ═══════════════════════════════════════
     // HERO ANIMATIONS (on load)
     // ═══════════════════════════════════════
     function initHeroAnimations() {
-      const heroTl = gsap.timeline({ defaults: { ease: "smooth" } });
+      const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       // Label fade up
       heroTl.fromTo('.hero__label',
@@ -2076,7 +2070,7 @@
           rotate: 0,
           stagger: 0.08,
           duration: 1,
-          ease: "smooth"
+          ease: "power3.out"
         },
         "-=0.3"
       );
@@ -2104,7 +2098,7 @@
           rotate: 0,
           stagger: 0.1,
           duration: 0.7,
-          ease: "smooth"
+          ease: "power3.out"
         },
         "-=0.3"
       );
@@ -2126,9 +2120,10 @@
         { scale: 1, opacity: 1, stagger: 0.2, duration: 1.5, ease: "power2.out", delay: 0.5 }
       );
 
-      // Remove data-gsap-hidden from hero elements
-      document.querySelectorAll('.hero [data-gsap-hidden]').forEach(el => {
-        el.removeAttribute('data-gsap-hidden');
+      // Remove data-animate from hero elements
+      document.querySelectorAll('.hero [data-animate]').forEach(el => {
+        el.removeAttribute('data-animate');
+        el.style.opacity = '';
       });
     }
 
@@ -2137,229 +2132,104 @@
     // ═══════════════════════════════════════
     function initScrollAnimations() {
 
-      // ─── Fade Up Animations ───
-      gsap.utils.toArray('[data-anim="fade-up"]:not(.hero *)').forEach(el => {
-        gsap.fromTo(el,
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "smooth",
+      // Helper: animate elements on scroll
+      function animBatch(selector, from, to, options) {
+        options = options || {};
+        gsap.utils.toArray(selector).forEach(function(el, i) {
+          el.style.opacity = '';
+          el.removeAttribute('data-animate');
+          gsap.fromTo(el, from, Object.assign({}, to, {
+            delay: (options.staggerDelay || 0) * i,
             scrollTrigger: {
               trigger: el,
-              start: "top 85%",
+              start: options.start || "top 85%",
               toggleActions: "play none none none"
-            },
-            onStart: () => el.removeAttribute('data-gsap-hidden')
-          }
-        );
-      });
-
-      // ─── Inline Text Reveal (split by lines) ───
-      gsap.utils.toArray('[data-anim="text-reveal-inline"]').forEach(el => {
-        el.removeAttribute('data-gsap-hidden');
-        const split = new SplitText(el, { type: "lines", linesClass: "split-line" });
-
-        // Wrap each line inner for clip masking
-        split.lines.forEach(line => {
-          const wrapper = document.createElement('div');
-          wrapper.style.overflow = 'hidden';
-          line.parentNode.insertBefore(wrapper, line);
-          wrapper.appendChild(line);
+            }
+          }));
         });
+      }
 
-        gsap.fromTo(split.lines,
+      // ─── Section labels, intros, body text — Fade Up ───
+      animBatch(
+        '.section-label:not(.hero *), .work__intro, .work__link, .process__intro, .contact__subtext, .about__text',
+        { y: 35, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+      );
+
+      // ─── Headings with <br> — Line Reveal ───
+      gsap.utils.toArray('.text-h1:not(.hero *), .text-h2, .about__heading, .contact__heading').forEach(function(el) {
+        el.style.opacity = '';
+        el.removeAttribute('data-animate');
+        var lines = splitIntoLines(el);
+        gsap.fromTo(lines,
           { yPercent: 110, opacity: 0 },
           {
-            yPercent: 0,
-            opacity: 1,
-            stagger: 0.08,
-            duration: 1,
-            ease: "smooth",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 85%",
-              toggleActions: "play none none none"
-            }
+            yPercent: 0, opacity: 1, stagger: 0.08, duration: 1, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
           }
         );
       });
 
-      // ─── Scale Reveal (Work Cards) ───
-      gsap.utils.toArray('[data-anim="scale-reveal"]').forEach(el => {
-        const delay = parseFloat(el.getAttribute('data-anim-delay') || 0);
-        gsap.fromTo(el,
-          { scale: 0.92, opacity: 0, y: 30 },
-          {
-            scale: 1,
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            delay: delay,
-            ease: "smooth",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 85%",
-              toggleActions: "play none none none"
-            },
-            onStart: () => el.removeAttribute('data-gsap-hidden')
-          }
-        );
-      });
+      // ─── Work Cards — Scale + Fade ───
+      animBatch(
+        '.work__card',
+        { scale: 0.92, opacity: 0, y: 30 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
+        { staggerDelay: 0.15 }
+      );
 
-      // ─── Card Reveal (Problem Cards) ───
-      gsap.utils.toArray('[data-anim="card-reveal"]').forEach(el => {
-        const delay = parseFloat(el.getAttribute('data-anim-delay') || 0);
-        gsap.fromTo(el,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.9,
-            delay: delay,
-            ease: "smooth",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 88%",
-              toggleActions: "play none none none"
-            },
-            onStart: () => el.removeAttribute('data-gsap-hidden')
-          }
-        );
+      // ─── Problem Cards ───
+      animBatch(
+        '.problem-card',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+        { staggerDelay: 0.12, start: "top 88%" }
+      );
 
-        // Animate the top bar on scroll
-        const topBar = el.querySelector('::before');
-      });
+      // ─── Process Steps ───
+      animBatch(
+        '.process-step',
+        { y: 25, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" },
+        { staggerDelay: 0.1, start: "top 90%" }
+      );
 
-      // ─── Step Reveal (Process Steps) ───
-      gsap.utils.toArray('[data-anim="step-reveal"]').forEach((el, i) => {
-        gsap.fromTo(el,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.7,
-            delay: i * 0.1,
-            ease: "smooth",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 90%",
-              toggleActions: "play none none none"
-            },
-            onStart: () => el.removeAttribute('data-gsap-hidden')
-          }
-        );
-
-        // Animate the border line
-        gsap.fromTo(el,
-          { borderColor: 'transparent' },
-          {
-            borderColor: 'var(--color-border-dark)',
-            duration: 0.6,
-            delay: i * 0.1 + 0.3,
-            scrollTrigger: {
-              trigger: el,
-              start: "top 90%",
-              toggleActions: "play none none none"
-            }
-          }
-        );
-      });
-
-      // ─── Form Reveal ───
-      gsap.utils.toArray('[data-anim="form-reveal"]').forEach(el => {
-        const formGroups = el.querySelectorAll('.form-group, .btn, .contact__expectation, .contact__alt');
-        el.removeAttribute('data-gsap-hidden');
-        gsap.fromTo(formGroups,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.08,
-            duration: 0.6,
-            ease: "smooth",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 80%",
-              toggleActions: "play none none none"
-            }
-          }
-        );
-      });
-
-      // ─── Horizontal Rules (Section Dividers) ───
-      gsap.utils.toArray('.animated-hr').forEach(el => {
-        gsap.to(el, {
-          scaleX: 1,
-          duration: 1,
-          ease: "smooth",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none none"
-          }
-        });
-      });
-
-      // ─── About Section: Stats counter-like pop in ───
-      gsap.utils.toArray('.about__stat').forEach((el, i) => {
+      // ─── About Stats ───
+      gsap.utils.toArray('.about__stat').forEach(function(el, i) {
+        el.style.opacity = '';
+        el.removeAttribute('data-animate');
         gsap.fromTo(el,
           { x: -30, opacity: 0 },
           {
-            x: 0,
-            opacity: 1,
-            duration: 0.7,
-            delay: i * 0.15,
-            ease: "smooth",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 85%",
-              toggleActions: "play none none none"
-            },
-            onStart: () => el.removeAttribute('data-gsap-hidden')
+            x: 0, opacity: 1, duration: 0.7, delay: i * 0.15, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
           }
         );
       });
 
-      // ─── Contact BG Text Parallax Scrub ───
+      // ─── Contact Form Fields ───
+      var form = document.querySelector('.contact__form');
+      if (form) {
+        var formItems = form.querySelectorAll('.form-group, .btn, .contact__expectation, .contact__alt');
+        form.style.opacity = '';
+        form.removeAttribute('data-animate');
+        gsap.fromTo(formItems,
+          { y: 25, opacity: 0 },
+          {
+            y: 0, opacity: 1, stagger: 0.08, duration: 0.6, ease: "power3.out",
+            scrollTrigger: { trigger: form, start: "top 80%", toggleActions: "play none none none" }
+          }
+        );
+      }
+
+      // ─── Contact BG Text Parallax ───
       gsap.to('.contact__bg-text', {
-        xPercent: -15,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.contact',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1
-        }
+        xPercent: -15, ease: 'none',
+        scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'bottom top', scrub: 1 }
       });
     }
 
-    // ═══════════════════════════════════════
-    // MARQUEE ANIMATION
-    // ═══════════════════════════════════════
-    function initMarquee() {
-      const track = document.querySelector('[data-marquee]');
-      if (!track) return;
-
-      const totalWidth = track.scrollWidth / 2;
-
-      gsap.to(track, {
-        x: -totalWidth,
-        ease: 'none',
-        duration: 30,
-        repeat: -1,
-        modifiers: {
-          x: gsap.utils.unitize(x => parseFloat(x) % totalWidth)
-        }
-      });
-
-      // Speed up on scroll
-      let velocity = 0;
-      lenis.on('scroll', ({ velocity: v }) => {
-        velocity = v;
-      });
-    }
+    // Marquee is now CSS-only (keyframe animation) — no JS needed
 
     // ═══════════════════════════════════════
     // PARALLAX EFFECTS
