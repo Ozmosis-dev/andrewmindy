@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="lenis lenis-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +15,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- GSAP & Plugins (public CDN only) -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-  <!-- Lenis Smooth Scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <!-- GSAP 3.13+ & Premium Plugins (all free on npm) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollSmoother.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/DrawSVGPlugin.min.js"></script>
 
   <style>
     /* ═══════════════════════════════════════
@@ -113,8 +113,13 @@
       display: none;
     }
 
-    html.lenis, html.lenis body {
-      height: auto;
+    #smooth-wrapper {
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
 
     body {
@@ -498,17 +503,29 @@
       max-width: 14ch;
     }
 
-    .hero__headline .line {
+    /* SplitText generated elements */
+    .split-line {
       display: block;
       overflow: hidden;
     }
 
-    .hero__headline .line-inner {
-      display: block;
+    .split-char {
+      display: inline-block;
+    }
+
+    .split-word {
+      display: inline-block;
     }
 
     .hero__headline .word-amber {
       color: var(--color-amber);
+    }
+
+    /* DrawSVG circles start hidden */
+    .draw-circle,
+    .draw-square {
+      stroke-dasharray: 9999;
+      stroke-dashoffset: 9999;
     }
 
     .hero__subhead {
@@ -651,9 +668,8 @@
     /* Hero geometric accents */
     .hero__accent-circle {
       position: absolute;
-      border: 1px solid rgba(26, 26, 26, 0.08);
-      border-radius: 50%;
       pointer-events: none;
+      overflow: visible;
     }
 
     .hero__accent-circle--1 {
@@ -1011,10 +1027,10 @@
     .about__accent-square {
       width: 100px;
       height: 100px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
       position: absolute;
       bottom: var(--space-8);
       right: var(--space-8);
+      overflow: visible;
     }
 
     .about__stat {
@@ -1422,15 +1438,6 @@
       will-change: transform, opacity;
     }
 
-    .hero__headline .line {
-      overflow: hidden;
-    }
-
-    .hero__headline .line-inner {
-      display: block;
-      transform: translateY(110%);
-    }
-
     /* Marquee CSS animation (buttery smooth, GPU-accelerated) */
     @keyframes marquee-scroll {
       0% { transform: translateX(0); }
@@ -1497,6 +1504,12 @@
   <div class="cursor" id="cursor"></div>
 
   <!-- ════════════════════════════════════
+       SCROLL SMOOTHER WRAPPER
+  ════════════════════════════════════ -->
+  <div id="smooth-wrapper">
+  <div id="smooth-content">
+
+  <!-- ════════════════════════════════════
        HEADER
   ════════════════════════════════════ -->
   <header class="header" id="header">
@@ -1526,21 +1539,27 @@
        HERO
   ════════════════════════════════════ -->
   <section class="hero section grain" id="hero">
-    <!-- Geometric accents -->
-    <div class="hero__accent-circle hero__accent-circle--1" data-parallax-speed="0.05"></div>
-    <div class="hero__accent-circle hero__accent-circle--2" data-parallax-speed="0.08"></div>
-    <div class="hero__accent-circle hero__accent-circle--3" data-parallax-speed="0.03"></div>
+    <!-- Geometric accents (SVG for DrawSVG animations) -->
+    <svg class="hero__accent-circle hero__accent-circle--1" data-parallax-speed="0.05" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle class="draw-circle" cx="200" cy="200" r="199" stroke="rgba(26,26,26,0.08)" stroke-width="1"/>
+    </svg>
+    <svg class="hero__accent-circle hero__accent-circle--2" data-parallax-speed="0.08" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle class="draw-circle" cx="125" cy="125" r="124" stroke="rgba(26,26,26,0.08)" stroke-width="1"/>
+    </svg>
+    <svg class="hero__accent-circle hero__accent-circle--3" data-parallax-speed="0.03" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle class="draw-circle" cx="75" cy="75" r="74" stroke="rgba(26,26,26,0.08)" stroke-width="1"/>
+    </svg>
 
     <div class="container hero__content">
       <span class="hero__label" data-animate>01 — Portfolio</span>
 
       <h1 class="hero__headline" data-animate>
-        <span class="line"><span class="line-inner">I Turn</span></span>
-        <span class="line"><span class="line-inner">Ambiguous</span></span>
-        <span class="line"><span class="line-inner"><span class="word-amber">Growth</span></span></span>
-        <span class="line"><span class="line-inner">Problems</span></span>
-        <span class="line"><span class="line-inner">Into Systems</span></span>
-        <span class="line"><span class="line-inner">That <span class="word-amber">Scale</span></span></span>
+        I Turn<br>
+        Ambiguous<br>
+        <span class="word-amber">Growth</span><br>
+        Problems<br>
+        Into Systems<br>
+        That <span class="word-amber">Scale</span>
       </h1>
 
       <p class="hero__subhead" data-animate>
@@ -1699,7 +1718,9 @@
           <div class="about__stat-label">Hours Reclaimed / Year</div>
         </div>
       </div>
-      <div class="about__accent-square" data-parallax-speed="0.06"></div>
+      <svg class="about__accent-square" data-parallax-speed="0.06" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="draw-square" x="1" y="1" width="98" height="98" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+      </svg>
     </div>
 
     <div class="about__right grain">
@@ -1845,14 +1866,17 @@
     </div>
   </footer>
 
+  </div><!-- /#smooth-content -->
+  </div><!-- /#smooth-wrapper -->
+
   <!-- ════════════════════════════════════════════════════════════
-       SCRIPTS — GSAP Animations, Lenis, Cursor, Interactions
+       SCRIPTS — GSAP Animations, ScrollSmoother, Cursor, Interactions
   ════════════════════════════════════════════════════════════ -->
   <script>
     // ═══════════════════════════════════════
-    // REGISTER GSAP PLUGINS (public CDN only)
+    // REGISTER GSAP PREMIUM PLUGINS (all free on npm ≥ 3.13)
     // ═══════════════════════════════════════
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin);
 
     gsap.defaults({
       ease: "power3.out",
@@ -1860,21 +1884,15 @@
     });
 
     // ═══════════════════════════════════════
-    // LENIS SMOOTH SCROLL
+    // SCROLLSMOOTHER (replaces Lenis)
     // ═══════════════════════════════════════
-    const lenis = new Lenis({
-      lerp: 0.1,
-      wheelMultiplier: 0.8,
-      smoothWheel: true
+    const smoother = ScrollSmoother.create({
+      wrapper: '#smooth-wrapper',
+      content: '#smooth-content',
+      smooth: 1.2,
+      effects: true,
+      smoothTouch: 0.1
     });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
-    gsap.ticker.lagSmoothing(0);
 
     // ═══════════════════════════════════════
     // SCROLL PROGRESS BAR
@@ -1883,7 +1901,7 @@
       width: '100%',
       ease: 'none',
       scrollTrigger: {
-        trigger: document.body,
+        trigger: '#smooth-content',
         start: 'top top',
         end: 'bottom bottom',
         scrub: 0.3
@@ -1949,7 +1967,7 @@
     })();
 
     // ═══════════════════════════════════════
-    // VANILLA TEXT SCRAMBLE (no premium plugin)
+    // TEXT SCRAMBLE
     // ═══════════════════════════════════════
     function scrambleText(el, finalText, duration) {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -1978,35 +1996,26 @@
     })();
 
     // ═══════════════════════════════════════
-    // VANILLA LINE SPLITTER (no premium plugin)
-    // ═══════════════════════════════════════
-    function splitIntoLines(el) {
-      const html = el.innerHTML;
-      const parts = html.split(/<br\s*\/?>/gi);
-      el.innerHTML = parts.map(part =>
-        '<span class="split-line-wrap" style="display:block;overflow:hidden;"><span class="split-line-inner" style="display:block;">' + part.trim() + '</span></span>'
-      ).join('');
-      return el.querySelectorAll('.split-line-inner');
-    }
-
-    // ═══════════════════════════════════════
-    // HEADER HIDE ON SCROLL
+    // HEADER HIDE ON SCROLL (via ScrollTrigger)
     // ═══════════════════════════════════════
     (function initHeader() {
       const header = document.getElementById('header');
       let lastScroll = 0;
 
-      lenis.on('scroll', ({ scroll }) => {
-        if (scroll > 100) {
-          if (scroll > lastScroll) {
-            header.classList.add('is-hidden');
+      ScrollTrigger.create({
+        onUpdate: (self) => {
+          const scroll = self.scroll();
+          if (scroll > 100) {
+            if (scroll > lastScroll) {
+              header.classList.add('is-hidden');
+            } else {
+              header.classList.remove('is-hidden');
+            }
           } else {
             header.classList.remove('is-hidden');
           }
-        } else {
-          header.classList.remove('is-hidden');
+          lastScroll = scroll;
         }
-        lastScroll = scroll;
       });
     })();
 
@@ -2030,6 +2039,7 @@
               initHeroAnimations();
               initScrollAnimations();
               initParallax();
+              initDrawSVG();
             }
           });
         }
@@ -2046,12 +2056,12 @@
 
       tl.to(fill, { width: '100%', duration: 1.8, ease: "power2.inOut" }, 0);
 
-      // Vanilla scramble text for loader
+      // Scramble text for loader
       scrambleText(loaderText, "Andrew Mindy", 1200);
     }
 
     // ═══════════════════════════════════════
-    // HERO ANIMATIONS (on load)
+    // HERO ANIMATIONS — SplitText Premium
     // ═══════════════════════════════════════
     function initHeroAnimations() {
       const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -2062,25 +2072,43 @@
         { y: 0, opacity: 1, duration: 0.6 }
       );
 
-      // Headline text reveal — lines slide up
-      heroTl.fromTo('.hero__headline .line-inner',
-        { yPercent: 110, rotate: 3 },
-        {
-          yPercent: 0,
-          rotate: 0,
-          stagger: 0.08,
-          duration: 1,
-          ease: "power3.out"
-        },
-        "-=0.3"
-      );
+      // ── SplitText: character-by-character hero headline reveal ──
+      const headlineSplit = SplitText.create('.hero__headline', {
+        type: 'lines,words,chars',
+        linesClass: 'split-line',
+        wordsClass: 'split-word',
+        charsClass: 'split-char'
+      });
 
-      // Subhead fade up
-      heroTl.fromTo('.hero__subhead',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7 },
-        "-=0.5"
-      );
+      // Set line wrappers to clip overflow for reveal effect
+      headlineSplit.lines.forEach(line => {
+        line.style.overflow = 'hidden';
+        line.style.display = 'block';
+      });
+
+      // Characters animate up with stagger
+      gsap.set(headlineSplit.chars, { yPercent: 120, opacity: 0 });
+      heroTl.to(headlineSplit.chars, {
+        yPercent: 0,
+        opacity: 1,
+        stagger: 0.02,
+        duration: 0.8,
+        ease: "power3.out"
+      }, "-=0.3");
+
+      // Subhead — SplitText word-by-word fade
+      const subheadSplit = SplitText.create('.hero__subhead', {
+        type: 'words',
+        wordsClass: 'split-word'
+      });
+      gsap.set(subheadSplit.words, { opacity: 0, y: 15 });
+      heroTl.to(subheadSplit.words, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.015,
+        duration: 0.5,
+        ease: "power2.out"
+      }, "-=0.4");
 
       // CTAs fade up
       heroTl.fromTo('.hero__ctas',
@@ -2114,11 +2142,14 @@
         "-=0.2"
       );
 
-      // Geometric accents subtle float
-      gsap.fromTo('.hero__accent-circle',
-        { scale: 0.8, opacity: 0 },
-        { scale: 1, opacity: 1, stagger: 0.2, duration: 1.5, ease: "power2.out", delay: 0.5 }
-      );
+      // Geometric SVG accent circles — DrawSVG draw-in
+      gsap.set('.hero .draw-circle', { drawSVG: '0%' });
+      heroTl.to('.hero .draw-circle', {
+        drawSVG: '100%',
+        stagger: 0.2,
+        duration: 2,
+        ease: "power2.inOut"
+      }, "-=1.5");
 
       // Remove data-animate from hero elements
       document.querySelectorAll('.hero [data-animate]').forEach(el => {
@@ -2128,7 +2159,7 @@
     }
 
     // ═══════════════════════════════════════
-    // SCROLL-TRIGGERED ANIMATIONS
+    // SCROLL-TRIGGERED ANIMATIONS — SplitText Premium
     // ═══════════════════════════════════════
     function initScrollAnimations() {
 
@@ -2156,18 +2187,31 @@
         { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
       );
 
-      // ─── Headings with <br> — Line Reveal ───
+      // ─── Headings — SplitText character reveal on scroll ───
       gsap.utils.toArray('.text-h1:not(.hero *), .text-h2, .about__heading, .contact__heading').forEach(function(el) {
         el.style.opacity = '';
         el.removeAttribute('data-animate');
-        var lines = splitIntoLines(el);
-        gsap.fromTo(lines,
-          { yPercent: 110, opacity: 0 },
-          {
-            yPercent: 0, opacity: 1, stagger: 0.08, duration: 1, ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
-          }
-        );
+
+        var split = SplitText.create(el, {
+          type: 'lines,chars',
+          linesClass: 'split-line',
+          charsClass: 'split-char'
+        });
+
+        split.lines.forEach(function(line) {
+          line.style.overflow = 'hidden';
+          line.style.display = 'block';
+        });
+
+        gsap.set(split.chars, { yPercent: 110, opacity: 0 });
+        gsap.to(split.chars, {
+          yPercent: 0,
+          opacity: 1,
+          stagger: 0.02,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
+        });
       });
 
       // ─── Work Cards — Scale + Fade ───
@@ -2230,6 +2274,24 @@
     }
 
     // Marquee is now CSS-only (keyframe animation) — no JS needed
+
+    // ═══════════════════════════════════════
+    // DRAWSVG — Accent Shape Animations
+    // ═══════════════════════════════════════
+    function initDrawSVG() {
+      // About section square — draw on scroll
+      gsap.set('.about .draw-square', { drawSVG: '0%' });
+      gsap.to('.about .draw-square', {
+        drawSVG: '100%',
+        duration: 2,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: '.about',
+          start: 'top 70%',
+          toggleActions: 'play none none none'
+        }
+      });
+    }
 
     // ═══════════════════════════════════════
     // PARALLAX EFFECTS
@@ -2317,14 +2379,14 @@
     })();
 
     // ═══════════════════════════════════════
-    // SMOOTH SCROLL TO ANCHORS
+    // SMOOTH SCROLL TO ANCHORS (via ScrollSmoother)
     // ═══════════════════════════════════════
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
         const target = document.querySelector(anchor.getAttribute('href'));
         if (target) {
-          lenis.scrollTo(target, { offset: -80 });
+          smoother.scrollTo(target, true, 'top top-=80');
         }
       });
     });
